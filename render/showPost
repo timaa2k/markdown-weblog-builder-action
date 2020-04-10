@@ -1,0 +1,85 @@
+#!/usr/bin/env bash
+
+# Check calling convention
+[[ -n "$1" ]] || {
+    echo "showPost requires an argument" 1>&2
+    exit 1
+}
+
+[[ -n "$BASE_DIR" ]] || {
+    echo "showPost requires BASE_DIR" 1>&2
+    exit 1
+}
+
+[[ -n "$STRIP_PREFIX" ]] || {
+    echo "showPost requires STRIP_PREFIX" 1>&2
+    exit 1
+}
+
+
+function getTitle {
+    # Get the contents of <title />
+    TTL=$(xidel - -q --extract "/html/head/title/text()" < "$1")
+    [[ -n "$TTL" ]] && {
+        echo "$TTL"
+        return
+    }
+
+    TTL=$(xidel - -q --extract "//h1/text()" < "$1")
+    [[ -n "$TTL" ]] && {
+        echo "No <title /> element for '$1', falling back to <h1 />" 1>&2
+        echo "$TTL"
+        return
+    }
+
+    TTL=$(basename "$1" .html)
+    [[ -n "$TTL" ]] && {
+        echo "No <title /> element for '$1', falling back to filename" 1>&2
+        echo "$TTL"
+        return
+    }
+
+    TTL="Untitled"
+    echo "No <title /> element for '$1', falling back to '$TTL'" 1>&2
+    echo "$TTL"
+}
+
+function getDate {
+    # Dates are in filenames
+    basename "$1" | cut -c 1-10
+}
+
+function getUrl {
+    # Strip local prefix off argument to get the post's URL
+    F=$(echo "$1" | replace "$STRIP_PREFIX" '')
+    echo "$BASE_DIR/$F"
+}
+
+function renderTime {
+    DATE=$(getDate "$1")
+    printf '<time class="dt-published" datetime="%s">%s</time>' "$DATE" "$DATE"
+}
+
+function renderLink {
+    TITLE=$(getTitle "$1")
+    URL=$(getUrl "$1")
+    printf '<a class="p-name u-url" href="/%s">%s</a>' "$URL" "$TITLE"
+}
+
+function extraClasses {
+    if grep -F "$(basename "$1")" < "$RANTS" > /dev/null
+    then
+        printf 'rant'
+    else
+        printf ' '
+    fi
+}
+
+function renderEntry {
+    TIME=$(renderTime   "$1")
+    LINK=$(renderLink   "$1")
+    CLSS=$(extraClasses "$1")
+    printf '<li class="h-entry %s">%s - %s</li>' "$CLSS" "$LINK" "$TIME"
+}
+
+renderEntry "$1"

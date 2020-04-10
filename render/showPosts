@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+echo '<ul>'
+
+while read -r POST
+do
+    showPost "$POST"
+done
+
+echo '</ul>'
