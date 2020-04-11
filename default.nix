@@ -5,6 +5,7 @@ let
 in
 with pkgs; derivation {
   name = "static-site";
+  src = ./src;
   builder = "${bash}/bin/bash";
   args = [ ./builder.sh ];
   setup = ./setup.sh;
@@ -15,7 +16,12 @@ with pkgs; derivation {
     xidel
     pandoc
     glibcLocales
+    findutils
   ];
-  buildInputs = [];
+  buildInputs = [
+    showPost
+    showPosts
+    renderPage
+  ];
   system = builtins.currentSystem;
 }

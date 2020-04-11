@@ -1,11 +1,10 @@
 #!/usr/bin/env bash
 set -e
-set -o pipefail
 
 # Capture and discard stdin, to avoid pandoc waiting on user input
 [ -t 0 ] || cat > /dev/null
 
-OUT_OPTIONS=(-f json -t html -s --mathml --template "./templates/default.html")
+OUT_OPTIONS=(-f json -t html -s --mathml --template "$TEMPLATE_PATH")
 
 # Provide 'path' arg for our View Source links.
 OUT_OPTIONS+=(-M "path=${SOURCE_PATH:-$SOURCE}")
@@ -20,9 +19,9 @@ fi
 # debugging harder. 'postprocessor' comes from the file's YAML (default: 'cat')
 pandoc -t json "$SOURCE"       |
     pandoc "${OUT_OPTIONS[@]}" |
-    "${postprocessor:-cat}"    > "$DEST" || fail "Rendering pipeline failed"
+    "${postprocessor:-cat}"    > "$DEST" || echo "Rendering pipeline echoed"
 
 # Check output
 
-[[ -e "$DEST" ]]                      || fail "Error: '$DEST' wasn't created"
-grep '[^ \n\t]' < "$DEST" > /dev/null || fail "Error: Output is empty"
+[[ -e "$DEST" ]]                      || echo "Error: '$DEST' wasn't created"
+grep '[^ \n\t]' < "$DEST" > /dev/null || echo "Error: Output is empty"

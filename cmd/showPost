@@ -6,11 +6,6 @@
     exit 1
 }
 
-[[ -n "$BASE_DIR" ]] || {
-    echo "showPost requires BASE_DIR" 1>&2
-    exit 1
-}
-
 [[ -n "$STRIP_PREFIX" ]] || {
     echo "showPost requires STRIP_PREFIX" 1>&2
     exit 1
@@ -19,13 +14,13 @@
 
 function getTitle {
     # Get the contents of <title />
-    TTL=$(xidel - -q --extract "/html/head/title/text()" < "$1")
+    TTL=$(xidel - -s --extract "/html/head/title/text()" < "$1")
     [[ -n "$TTL" ]] && {
         echo "$TTL"
         return
     }
 
-    TTL=$(xidel - -q --extract "//h1/text()" < "$1")
+    TTL=$(xidel - -s --extract "//h1/text()" < "$1")
     [[ -n "$TTL" ]] && {
         echo "No <title /> element for '$1', falling back to <h1 />" 1>&2
         echo "$TTL"
@@ -51,8 +46,7 @@ function getDate {
 
 function getUrl {
     # Strip local prefix off argument to get the post's URL
-    F=$(echo "$1" | replace "$STRIP_PREFIX" '')
-    echo "$BASE_DIR/$F"
+    echo ${1#"$STRIP_PREFIX"}
 }
 
 function renderTime {
@@ -69,7 +63,7 @@ function renderLink {
 function renderEntry {
     TIME=$(renderTime   "$1")
     LINK=$(renderLink   "$1")
-    printf '<li class="h-entry %s">%s - %s</li>' "$CLSS" "$LINK" "$TIME"
+    printf '<li class="h-entry %s">%s - %s</li>' "$LINK" "$TIME"
 }
 
 renderEntry "$1"
