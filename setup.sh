@@ -3,14 +3,15 @@ for p in $baseInputs $buildInputs; do
   export PATH=$p/bin${PATH:+:}$PATH
 done
 
-function buildPhase() {}
+function renderingPhase() {
+  ./gen/renderPage
+}
 
-function installPhase() {}
-
-function fixupPhase() {}
+function installPhase() {
+  echo "Installing..."
+}
 
 function staticSiteBuild() {
-  buildPhase
+  renderingPhase
   installPhase
-  fixupPhase
 }
