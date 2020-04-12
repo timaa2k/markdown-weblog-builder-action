@@ -1,10 +1,28 @@
 #!/usr/bin/env bash
 
-echo '<ul>'
+echo '<!DOCTYPE html>'
+echo '<html>'
+echo '<head>'
+echo '<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />'
+echo '<title>Repositories</title>'
+echo '<link rel="stylesheet" type="text/css" href="style.css" />'
+echo '</head>'
+echo '<body>'
+echo '<table><tr><td><span class="desc">Tim Weidner</span></td></tr></table>'
+echo '<hr/>'
+echo '<div id="content">'
+
+echo '<table id="index"><thead>'
+echo '<tr><td><b>Title</b></td><td><b>Description</b></td><td><b>Author</b></td><td><b>Date</b></td></tr>'
+echo '</thead>'
+echo '<tbody>'
 
 while read -r POST
 do
     showPost "$POST"
 done
 
-echo '</ul>'
+echo '</tbody>'
+
+echo '</div>'
+echo '</body>'

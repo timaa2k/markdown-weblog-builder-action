@@ -63,7 +63,7 @@ function renderLink {
 function renderEntry {
     TIME=$(renderTime   "$1")
     LINK=$(renderLink   "$1")
-    printf '<li class="h-entry">%s - %s</li>' "$LINK" "$TIME"
+    printf '<tr><td>%s</td><td></td><td>Tim Weidner</td><td>%s</td></tr>' "$LINK" "$TIME"
 }
 
 renderEntry "$1"
