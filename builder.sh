@@ -1,3 +1,3 @@
 set -e
 source $setup
-genericBuilder()
+genericBuilder

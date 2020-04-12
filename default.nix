@@ -17,6 +17,8 @@ with pkgs; derivation {
     pandoc
     glibcLocales
     findutils
+    python3.7
+    curl
   ];
   buildInputs = [
     showPost

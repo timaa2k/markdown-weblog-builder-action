@@ -13,23 +13,22 @@ function buildPhase() {
     html_dir=`dirname $html_file`
     mkdir -p $html_dir
     (
-      export TEMPLATE_PATH="${src}/templates/default.html"
+      export TEMPLATE_PATH="${src}/template.html"
       export SOURCE="$md_file"
       export DEST="$html_file"
       renderPage
     )
   done
 
-  posts=${out}/blog/*.html
-  export STRIP_PREFIX=${out}
-  index=$(echo $posts | showPosts)
+  shopt -u globstar
 
-  index_file="${out}/blog/index.html"
+  export STRIP_PREFIX=${out}/
+  index=$(find ${out} -type f | grep -v index.html | showPosts)
+  index_file="${out}/index.html"
   index_dir=`dirname $index_file`
   mkdir -p $index_dir
   echo $index > $index_file
 
-  shopt -u globstar
 }
 
 function installPhase() {

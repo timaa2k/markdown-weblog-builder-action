@@ -46,7 +46,7 @@ function getDate {
 
 function getUrl {
     # Strip local prefix off argument to get the post's URL
-    echo ${1#"$STRIP_PREFIX"}
+    echo ${1#$STRIP_PREFIX}
 }
 
 function renderTime {
@@ -63,7 +63,7 @@ function renderLink {
 function renderEntry {
     TIME=$(renderTime   "$1")
     LINK=$(renderLink   "$1")
-    printf '<li class="h-entry %s">%s - %s</li>' "$LINK" "$TIME"
+    printf '<li class="h-entry">%s - %s</li>' "$LINK" "$TIME"
 }
 
 renderEntry "$1"
