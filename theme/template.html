@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>$title$</title>
+    <link rel="stylesheet" type="text/css" href="style.css" />
+    <link rel="author" href="http://timaa2k.github.io" />
+  </head>
+  <body>
+    <table>
+      <tr>
+          <td><span class="desc"><a href="$history$">$title$</a></span></td>
+      </tr>
+    </table>
+    <hr>
+    <div class="$if(date)$ h-entry $endif$ $content_classes$" id="content">
+      $if(date)$
+        <div class="info">
+          Posted on <time class="dt-published" datetime="$date$">$date$</time>
+          by
+          <a class="p-author h-card" href="https://timaa2k.github.io">
+            Tim Weidner
+          </a>
+        </div>
+      $endif$
+    <!-- Don't indent body, in case its content is whitespace-sensitive -->
+      <div $if(date)$ class="e-content" $endif$>
+$body$
+      </div>
+    </div>
+  </body>
+</html>
