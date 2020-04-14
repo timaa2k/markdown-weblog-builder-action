@@ -1,7 +1,5 @@
 FROM nixos/nix
 
-RUN mkdir -p /build
+COPY . /
 
-COPY . /build
-
-ENTRYPOINT ["/build/entrypoint.sh"]
+ENTRYPOINT ["/entrypoint.sh"]

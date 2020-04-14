@@ -6,6 +6,6 @@ export MARKDOWN_DIR=/github/workspace
 
 nix-build
 
-find . -type l -exec './copy-from-store.sh' '{}' ';'
+find . -type l -exec '/copy-from-store.sh' '{}' ';'
 
-mv ./result /github/workspace
+mv /result /github/workspace
