@@ -32,6 +32,8 @@ let
       renderPage
     ];
     installPhase = ''
+      export BASE_PATH="${builtins.getEnv "BASE_PATH"}"
+
       shopt -s globstar
 
       for md_file in ${staticSitePosts}/**/*.md; do
@@ -41,7 +43,7 @@ let
         html_dir=`dirname "$html_file"`
         mkdir -p "$html_dir"
 
-        history_link="''${rel_path}-history.html"
+        history_link="''${BASE_PATH}''${rel_path}-history.html"
         history_file="''${out}''${history_link}"
 
         git -C ${staticSitePosts} log --date=short --pretty=format:"%ad" --unified=0 -p $md_file | sed -e '/diff/,/@@/d' -e 's/^/<p>/' -e 's/$/<\/p>/' > $history_file
@@ -57,7 +59,6 @@ let
       shopt -u globstar
 
       export STRIP_PREFIX="$out/"
-      export BASE_PATH="${builtins.getEnv "BASE_PATH"}"
       index=$(find $out -type f -name \*.html | grep -v index.html | grep -v history | showPosts)
       index_file="''${out}/index.html"
       index_dir=`dirname "$index_file"`
