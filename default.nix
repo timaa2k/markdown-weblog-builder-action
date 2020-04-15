@@ -43,12 +43,12 @@ let
         html_dir=`dirname "$html_file"`
         mkdir -p "$html_dir"
 
-        history_link="''${BASE_PATH}''${rel_path}-history.html"
+        history_link="''${rel_path}-history.html"
         history_file="''${out}''${history_link}"
 
         git -C ${staticSitePosts} log --date=short --pretty=format:"%ad" --unified=0 -p $md_file | sed -e '/diff/,/@@/d' -e 's/^/<p>/' -e 's/$/<\/p>/' > $history_file
         (
-          export HISTORY_HREF="$history_link"
+          export HISTORY_HREF="''${BASE_PATH}''${history_link}"
           export TEMPLATE_PATH="${staticSiteTheme}/template.html"
           export SOURCE="$md_file"
           export DEST="$html_file"
