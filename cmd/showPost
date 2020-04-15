@@ -51,7 +51,7 @@ function getDate {
 function getUrl {
     # Strip local prefix off argument to get the post's URL
     F=${1#$STRIP_PREFIX}
-    echo "${BASE_PATH}${F}"
+    echo "${BASE_PATH}/${F}"
 }
 
 function renderTime {
@@ -62,13 +62,13 @@ function renderTime {
 function renderLink {
     TITLE=$(getTitle "$1")
     URL=$(getUrl "$1")
-    printf '<a class="p-name u-url" href="/%s">%s</a>' "$URL" "$TITLE"
+    printf '<a class="p-name u-url" href="%s">%s</a>' "$URL" "$TITLE"
 }
 
 function renderEntry {
     TIME=$(renderTime   "$1")
     LINK=$(renderLink   "$1")
-    printf '<tr><td>%s</td><td></td><td>Tim Weidner</td><td>%s</td></tr>' "$LINK" "$TIME"
+    printf '<tr><td>%s</td><td>%s</td><td></td><td>Tim Weidner</td></tr>' "$TIME" "$LINK"
 }
 
 renderEntry "$1"
