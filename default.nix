@@ -57,6 +57,7 @@ let
       shopt -u globstar
 
       export STRIP_PREFIX="$out/"
+      export BASE_PATH="${builtins.getEnv "BASE_PATH"}"
       index=$(find $out -type f -name \*.html | grep -v index.html | grep -v history | showPosts)
       index_file="''${out}/index.html"
       index_dir=`dirname "$index_file"`

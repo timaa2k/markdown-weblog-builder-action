@@ -11,6 +11,10 @@
     exit 1
 }
 
+[[ -n "$BASE_PATH" ]] || {
+    echo "showPost requires BASE_PATH" 1>&2
+    exit 1
+}
 
 function getTitle {
     # Get the contents of <title />
@@ -46,7 +50,8 @@ function getDate {
 
 function getUrl {
     # Strip local prefix off argument to get the post's URL
-    echo ${1#$STRIP_PREFIX}
+    F=${1#$STRIP_PREFIX}
+    echo "${BASE_PATH}${F}"
 }
 
 function renderTime {

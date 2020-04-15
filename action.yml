@@ -1,5 +1,12 @@
 name: 'markdown-weblog-builder'
 description: 'Generate weblog from Markdown files'
+inputs:
+  basepath:
+    description: 'Added before HTTP links'
+    required: true
+    default: ''
 runs:
   using: 'docker'
   image: 'Dockerfile'
+  args:
+    - ${{ inputs.basepath }}
